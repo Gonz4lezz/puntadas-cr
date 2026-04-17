@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autor - Puntadas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../css/author.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">
+                    <div class="logo-container">
+                        <img src="../images/puntadas-cr.jpg" alt="Logo" class="logo-img">
+                        <span class="brand-text">Puntadas</span>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="catalog.html">Catálogo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">Nuestra Historia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="location.html">Ubicación</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="author.html">Autor</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="author-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="hero-title">Información del Desarrollador</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenido Principal -->
+    <main class="author-main" id="authorApp">
+        <div class="container">
+            <!-- Información Personal -->
+            <section class="personal-info-section">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="author-card">
+                            <div class="row align-items-center">
+                                <div class="col-lg-4 mb-4">
+                                    <div class="author-photo-container">
+                                        <img src="../images/author.jpeg" alt="Foto del autor" class="author-photo">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="author-details">
+                                        <h2 class="author-name">Jurgen Calvo Gonzalez</h2>
+                                        <p class="author-title">Estudiante de Ingeniería del Software</p>
+                                        <div class="author-info-grid">
+                                            <div class="info-item">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-id-card"></i>
+                                                </div>
+                                                <div class="info-content">
+                                                    <span class="info-label">Cédula:</span>
+                                                    <span class="info-value">208680469</span>
+                                                </div>
+                                            </div>
+                                            <div class="info-item">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-envelope"></i>
+                                                </div>
+                                                <div class="info-content">
+                                                    <span class="info-label">Email:</span>
+                                                    <span class="info-value">
+                                                        <a :href="'mailto:' + authorInfo.email">juerguecalvo@gmail.com</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="info-item">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-university"></i>
+                                                </div>
+                                                <div class="info-content">
+                                                    <span class="info-label">Universidad:</span>
+                                                    <span class="info-value">Universidad Tecnica Nacional</span>
+                                                </div>
+                                            </div>
+                                            <div class="info-item">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </div>
+                                                <div class="info-content">
+                                                    <span class="info-label">Año:</span>
+                                                    <span class="info-value">2026</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Contacto</h5>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+506 6147-4889</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>info@gmail.com</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Tacares, Alajuela, Costa Rica</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Síguenos</h5>
+                            <div class="social-links">
+                                <a href="https://www.instagram.com/_puntadas_cr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://wa.me/50661474889" class="social-link whatsapp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Enlaces Rápidos</h5>
+                            <ul class="footer-links">
+                                <li><a href="pages/catalog.html">Catálogo</a></li>
+                                <li><a href="pages/about.html">Nuestra Historia</a></li>
+                                <li><a href="pages/contact.html">Contacto</a></li>
+                                <li><a href="pages/location.html">Ubicación</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../js/author.js"></script>
+</body>
+</html>

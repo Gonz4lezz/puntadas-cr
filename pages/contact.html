@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Puntadas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../css/contact.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <div class="logo-container">
+                        <img src="../images/puntadas-cr.jpg" alt="Logo" class="logo-img">
+                        <span class="brand-text">Puntadas</span>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="catalog.html">Catálogo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">Nuestra Historia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="location.html">Ubicación</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="contact.html">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="author.html">Autor</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="hero-title">Contáctanos</h1>
+                    <p class="hero-subtitle">Estamos aquí para ayudarte con tu próximo proyecto tejido</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenido Principal -->
+    <main class="contact-main" id="contactApp">
+        <div class="container">
+            <!-- Producto Seleccionado (si viene del catálogo) -->
+            <section class="selected-product-section" v-if="selectedProduct">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="selected-product-card">
+                            <div class="product-header">
+                                <h3 class="product-title">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Producto de Interés
+                                </h3>
+                                <button class="btn btn-remove" @click="removeProduct">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="product-content">
+                                <div class="row align-items-center">
+                                    <div class="col-md-3">
+                                        <img :src="selectedProduct.image" :alt="selectedProduct.name"
+                                            class="product-image">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h4 class="product-name">{{ selectedProduct.name }}</h4>
+                                        <p class="product-category">{{ selectedProduct.category }}</p>
+                                        <p class="product-price">{{ selectedProduct.price }}</p>
+                                        <p class="product-note">Este producto será incluido en tu mensaje de contacto
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Formulario y Información de Contacto -->
+            <section class="contact-form-section">
+                <div class="row">
+                    <div class="col-lg-12 mb-4">
+                        <div class="form-container">
+                            <div class="form-header">
+                                <h2 class="form-title">Envíanos un Mensaje</h2>
+                                <p class="form-subtitle">Completa el formulario y nos pondremos en contacto contigo
+                                    pronto</p>
+                            </div>
+
+                            <form id="contactForm" @submit.prevent="submitForm" novalidate>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fullName" class="form-label">
+                                            Nombre Completo <span class="required">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="fullName"
+                                            v-model="formData.fullName" :class="{ 'is-invalid': errors.fullName }"
+                                            required>
+                                        <div class="invalid-feedback" v-if="errors.fullName">
+                                            {{ errors.fullName }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">
+                                            Correo Electrónico <span class="required">*</span>
+                                        </label>
+                                        <input type="email" class="form-control" id="email" v-model="formData.email"
+                                            :class="{ 'is-invalid': errors.email }" required>
+                                        <div class="invalid-feedback" v-if="errors.email">
+                                            {{ errors.email }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">
+                                        Mensaje <span class="required">*</span>
+                                    </label>
+                                    <textarea class="form-control" id="message" rows="5" v-model="formData.message"
+                                        :class="{ 'is-invalid': errors.message }"
+                                        placeholder="Cuéntanos sobre tu proyecto o consulta..." required></textarea>
+                                    <div class="invalid-feedback" v-if="errors.message">
+                                        {{ errors.message }}
+                                    </div>
+                                    <div class="form-text">{{ messageLength }}/500 caracteres</div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary-gradient" :disabled="isSubmitting">
+                                        <span v-if="isSubmitting">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            Enviando...
+                                        </span>
+                                        <span v-else>
+                                            <i class="fas fa-paper-plane"></i>
+                                            Enviar Mensaje
+                                        </span>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" @click="resetForm"
+                                        :disabled="isSubmitting">
+                                        <i class="fas fa-undo"></i>
+                                        Limpiar Formulario
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Contacto</h5>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+506 6147-4889</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>info@gmail.com</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Tacares, Alajuela, Costa Rica</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Síguenos</h5>
+                            <div class="social-links">
+                                <a href="https://www.instagram.com/_puntadas_cr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://wa.me/50661474889" class="social-link whatsapp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Enlaces Rápidos</h5>
+                            <ul class="footer-links">
+                                <li><a href="pages/catalog.html">Catálogo</a></li>
+                                <li><a href="pages/about.html">Nuestra Historia</a></li>
+                                <li><a href="pages/contact.html">Contacto</a></li>
+                                <li><a href="pages/location.html">Ubicación</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Éxito -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">
+                        <i class="fas fa-check-circle text-success"></i>
+                        Mensaje Enviado
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¡Gracias por contactarnos! Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.
+                    </p>
+                    <p><strong>Tiempo de respuesta estimado:</strong> 24-48 horas</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../js/contact.js"></script>
+</body>
+
+</html>

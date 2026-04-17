@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Puntadas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../css/catalog.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <div class="logo-container">
+                        <img src="../images/puntadas-cr.jpg" alt="Logo" class="logo-img">
+                        <span class="brand-text">Puntadas</span>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="catalog.html">Catálogo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/about.html">Nuestra Historia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/location.html">Ubicación</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/contact.html">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/author.html">Autor</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="catalog-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="hero-title">Nuestro Catálogo</h1>
+                    <p class="hero-subtitle">Descubre nuestra colección completa de productos tejidos artesanalmente</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenido Principal -->
+    <main class="catalog-main" id="catalogApp">
+        <div class="container">
+            <!-- Controles y Filtros -->
+            <div class="controls-section">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="control-card">
+                            <div class="control-header">
+                                <i class="fas fa-exchange-alt"></i>
+                                <h5>Moneda</h5>
+                            </div>
+                            <div class="currency-switch">
+                                <input type="checkbox" id="currencyToggle" v-model="showInDollars" @change="toggleCurrency">
+                                <label for="currencyToggle" class="switch-label">
+                                    <span class="switch-slider"></span>
+                                    <span class="currency-text">{{ showInDollars ? 'USD ($)' : 'CRC (₡)' }}</span>
+                                </label>
+                            </div>
+                            <div class="exchange-info" v-if="exchangeRate">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle"></i>
+                                    Tipo de cambio: ₡{{ exchangeRate.toLocaleString() }} por $1
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="control-card">
+                            <div class="control-header">
+                                <i class="fas fa-filter"></i>
+                                <h5>Categoría</h5>
+                            </div>
+                            <select class="form-select category-select" v-model="selectedCategory" @change="filterProducts">
+                                <option value="">Todas las categorías</option>
+                                <option value="muñecos">Muñecos</option>
+                                <option value="llaveros">Llaveros</option>
+                                <option value="bolsos">Bolsos</option>
+                                <option value="flores">Flores</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-12 mb-3">
+                        <div class="control-card">
+                            <div class="control-header">
+                                <i class="fas fa-search"></i>
+                                <h5>Buscar</h5>
+                            </div>
+                            <input type="text" class="form-control search-input" 
+                                   placeholder="Buscar productos..." 
+                                   v-model="searchTerm" 
+                                   @input="filterProducts">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información de Resultados -->
+            <div class="results-info" v-if="!loading">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="results-text">
+                            Mostrando {{ filteredProducts.length }} de {{ products.length }} productos
+                            <span v-if="selectedCategory" class="category-badge">{{ getCategoryName(selectedCategory) }}</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="sort-controls">
+                            <label for="sortSelect" class="sort-label">Ordenar por:</label>
+                            <select id="sortSelect" class="form-select sort-select" v-model="sortBy" @change="sortProducts">
+                                <option value="name">Nombre</option>
+                                <option value="price-low">Precio: Menor a Mayor</option>
+                                <option value="price-high">Precio: Mayor a Menor</option>
+                                <option value="category">Categoría</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div v-if="loading" class="loading-section">
+                <div class="loading-container">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="loading-text">Cargando productos...</p>
+                </div>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div class="products-grid" v-if="!loading && filteredProducts.length > 0">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4" 
+                         v-for="product in filteredProducts" 
+                         :key="product.id">
+                        <div class="product-card" :class="'category-' + product.category">
+                            <div class="product-image-container">
+                                <img :src="product.image" 
+                                     :alt="product.name" 
+                                     class="product-image"
+                                     @error="handleImageError">
+                                <div class="category-tag">{{ getCategoryName(product.category) }}</div>
+                            </div>
+                            
+                            <div class="product-info">
+                                <h3 class="product-name">{{ product.name }}</h3>
+                                <p class="product-description">{{ product.description }}</p>
+                                <div class="product-footer">
+                                    <div class="price-container">
+                                        <span class="product-price">{{ formatPrice(product.price) }}</span>
+                                        <span class="price-currency">{{ showInDollars ? 'USD' : 'CRC' }}</span>
+                                    </div>
+                                    <button class="btn btn-order" @click="orderProduct(product)">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        Pedir Ahora
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estado Vacío -->
+            <div v-if="!loading && filteredProducts.length === 0" class="empty-state">
+                <div class="empty-container">
+                    <div class="empty-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="empty-title">No se encontraron productos</h3>
+                    <p class="empty-text">
+                        <span v-if="searchTerm">No hay productos que coincidan con "{{ searchTerm }}"</span>
+                        <span v-else-if="selectedCategory">No hay productos en la categoría "{{ getCategoryName(selectedCategory) }}"</span>
+                        <span v-else>No hay productos disponibles en este momento</span>
+                    </p>
+                    <button class="btn btn-primary" @click="clearFilters">
+                        <i class="fas fa-refresh"></i>
+                        Limpiar Filtros
+                    </button>
+                </div>
+            </div>
+
+            <!-- Categorías Destacadas -->
+            <section class="featured-categories" v-if="!loading && products.length > 0">
+                <div class="section-header">
+                    <h2 class="section-title">Explora por Categorías</h2>
+                    <p class="section-subtitle">Encuentra exactamente lo que buscas</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4" v-for="category in categories" :key="category.id">
+                        <div class="category-card" @click="selectCategory(category.id)">
+                            <div class="category-icon">
+                                <i :class="category.icon"></i>
+                            </div>
+                            <h4 class="category-name">{{ category.name }}</h4>
+                            <p class="category-count">{{ getCategoryCount(category.id) }} productos</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Contacto</h5>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+506 6147-4889</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>info@gmail.com</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Tacares, Alajuela, Costa Rica</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Síguenos</h5>
+                            <div class="social-links">
+                                <a href="https://www.instagram.com/_puntadas_cr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://wa.me/50661474889" class="social-link whatsapp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Enlaces Rápidos</h5>
+                            <ul class="footer-links">
+                                <li><a href="pages/catalog.html">Catálogo</a></li>
+                                <li><a href="pages/about.html">Nuestra Historia</a></li>
+                                <li><a href="pages/contact.html">Contacto</a></li>
+                                <li><a href="pages/location.html">Ubicación</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../js/catalog.js"></script>
+</body>
+</html>

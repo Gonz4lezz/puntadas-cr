@@ -1,0 +1,124 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Muñeco de Messi",
+            "description": "Muñeco tejido del famoso futbolista Lionel Messi",
+            "price": 15000,
+            "category": "muñecos",
+            "image": "../images/messi.png"
+        },
+        {
+            "id": 2,
+            "name": "Llavero de spiderman",
+            "description": "Adorable llavero de Spiderman",
+            "price": 4000,
+            "category": "llaveros",
+            "image": "../images/llavero-spiderman.png"
+        },
+        {
+            "id": 3,
+            "name": "Bolso de corazones",
+            "description": "Bolso de corazones tejido a mano",
+            "price": 12000,
+            "category": "bolsos",
+            "image": "../images/bolso-1.png"
+        },
+        {
+            "id": 13,
+            "name": "Bolso de flores",
+            "description": "Bolso con diseño de flores tejido a mano",
+            "price": 12000,
+            "category": "bolsos",
+            "image": "../images/bolso-2.png"
+        },
+        {
+            "id": 4,
+            "name": "Flor con forma de cerdo",
+            "description": "Adorable flor con forma de cerdo",
+            "price": 7000,
+            "category": "flores",
+            "image": "../images/flor-cerdo.png"
+        },
+        {
+            "id": 5,
+            "name": "Muñeco de Harry Potter",
+            "description": "Muñeco tejido de harry potter",
+            "price": 12000,
+            "category": "muñecos",
+            "image": "../images/harry-potter.png"
+        },
+        {
+            "id": 6,
+            "name": "Llavero de sandia",
+            "description": "Adorable llavero en forma de sandia",
+            "price": 3000,
+            "category": "llaveros",
+            "image": "../images/llavero-sandia.png"
+        },
+        {
+            "id": 7,
+            "name": "Llavero de angel",
+            "description": "Llavero en forma de angel para primera comunion",
+            "price": 5000,
+            "category": "llaveros",
+            "image": "../images/llavero-angel.png"
+        },
+        {
+            "id": 8,
+            "name": "Muñeco de Luffy",
+            "description": "Muñeco tejido del pirata luffy",
+            "price": 12000,
+            "category": "muñecos",
+            "image": "../images/luffy.png"
+        },
+        {
+            "id": 9,
+            "name": "Mini figuras Monster Inc.",
+            "description": "4 mini figuras de Monster Inc",
+            "price": 12000,
+            "category": "muñecos",
+            "image": "../images/mini-monster-inc.png"
+        },
+        {
+            "id": 10,
+            "name": "Ramo de flores rosadas",
+            "description": "Ramo tejido con flores rosadas",
+            "price": 12000,
+            "category": "flores",
+            "image": "../images/ramo-rosado.png"
+        },
+        {
+            "id": 11,
+            "name": "Muñeco de Russel",
+            "description": "Muñeco de Rusell de la pelicula Up",
+            "price": 10000,
+            "category": "muñecos",
+            "image": "../images/rusell.png"
+        },
+        {
+            "id": 12,
+            "name": "Muñeco de Snoopy",
+            "description": "Muñeco tejido del perro Snoopy",
+            "price": 10000,
+            "category": "muñecos",
+            "image": "../images/snoopy.png"
+        },
+        {
+            "id": 13,
+            "name": "Figura de la Virgen",
+            "description": "Figura tejida de la Virgen",
+            "price": 10000,
+            "category": "muñecos",
+            "image": "../images/virgen.png"
+        },
+        {
+            "id": 14,
+            "name": "Maceta con flores",
+            "description": "Maceta tejida con 2 flores",
+            "price": 10000,
+            "category": "muñecos",
+            "image": "../images/maceta-flores.png"
+        }
+    ]
+}
