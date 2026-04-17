@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puntadas - Tejidos Artesanales</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <div class="logo-container">
+                        <img src="images/puntadas-cr.jpg" alt="Logo" class="logo-img">
+                        <span class="brand-text">Puntadas</span>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/catalog.html">Catálogo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/about.html">Nuestra Historia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/location.html">Ubicación</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/contact.html">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/author.html">Autor</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section con Carrusel -->
+    <section class="hero-section">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="carousel-slide">
+                        <img src="images/Carousel1.jpeg" class="carousel-bg-img" alt="Muñecos tejidos">
+                        <div class="carousel-content">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6 hero-box">
+                                        <h1 class="hero-title">Muñecos Únicos</h1>
+                                        <p class="hero-subtitle">Creamos personajes de tus caricaturas favoritas con amor y dedicación</p>
+                                        <a href="pages/catalog.html?category=muñecos" class="btn btn-hero">Ver Muñecos</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-slide">
+                        <img src="images/Carousel2.jpg" class="carousel-bg-img" alt="Accesorios tejidos">
+                        <div class="carousel-content">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6">
+                                        <h1 class="hero-title">Accesorios Especiales</h1>
+                                        <p class="hero-subtitle">Llaveros, bolsos y más, todos hechos a mano con materiales de calidad</p>
+                                        <a href="pages/catalog.html?category=llaveros" class="btn btn-hero">Ver Accesorios</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Contenido Principal -->
+    <main>
+        <!-- Sección de Bienvenida -->
+        <section class="welcome-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <div class="welcome-content">
+                            <h2 class="section-title">Bienvenidos a Puntadas</h2>
+                            <p class="section-subtitle">Creamos piezas únicas tejidas a mano con amor y dedicación. Cada producto es una obra de arte que cuenta una historia especial.</p>
+                            <div class="stats-container">
+                                <div class="stat-item">
+                                    <div class="stat-number">100+</div>
+                                    <div class="stat-label">Productos Creados</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">100+</div>
+                                    <div class="stat-label">Clientes Felices</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">4</div>
+                                    <div class="stat-label">Años de Experiencia</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Video -->
+        <section class="video-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="video-content">
+                            <h2 class="section-title">Descubre el Arte del Crochet</h2>
+                            <p class="section-text">Mira este video rápido sobre cómo se teje el crochet y conoce el proceso detrás de cada una de nuestras creaciones. Cada puntada está hecha con paciencia y cariño.</p>
+                            <div class="video-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Materiales de alta calidad</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Técnicas tradicionales</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Diseños únicos</span>
+                                </div>
+                            </div>
+                            <a href="catalog.html" class="btn btn-primary-gradient">Ver Catálogo Completo</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="video-container">
+                            <div class="video-wrapper">
+                                <video controls class="main-video">
+                                    <source src="video/puntadas-video.mp4" type="video/mp4">
+                                    <source src="video/puntadas-video.mp4" type="video/webm">
+                                    Tu navegador no soporta el elemento video.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Productos -->
+        <section class="products-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Nuestros Productos</h2>
+                    <p class="section-subtitle">Explora nuestra amplia gama de productos tejidos artesanalmente</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="product-card" data-category="muñecos">
+                            <div class="product-icon">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h3 class="product-title">Muñecos Personalizados</h3>
+                            <p class="product-description">Personajes de caricaturas, deportistas famosos y mucho más</p>
+                            <div class="product-features">
+                                <span class="feature-tag">Personalizable</span>
+                                <span class="feature-tag">Único</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="product-card" data-category="llaveros">
+                            <div class="product-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h3 class="product-title">Llaveros Únicos</h3>
+                            <p class="product-description">Diseños creativos para acompañarte a donde vayas</p>
+                            <div class="product-features">
+                                <span class="feature-tag">Portátil</span>
+                                <span class="feature-tag">Colorido</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="product-card" data-category="bolsos">
+                            <div class="product-icon">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <h3 class="product-title">Bolsos Artesanales</h3>
+                            <p class="product-description">Funcionales y hermosos, perfectos para cualquier ocasión</p>
+                            <div class="product-features">
+                                <span class="feature-tag">Funcional</span>
+                                <span class="feature-tag">Elegante</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="product-card" data-category="flores">
+                            <div class="product-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3 class="product-title">Flores Eternas</h3>
+                            <p class="product-description">Ramos que nunca se marchitan, perfectos para regalar</p>
+                            <div class="product-features">
+                                <span class="feature-tag">Duradero</span>
+                                <span class="feature-tag">Romántico</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <h2 class="cta-title">¿Listo para tu pieza única?</h2>
+                            <p class="cta-subtitle">Contáctanos y hagamos realidad tu idea perfecta. Cada puntada cuenta una historia.</p>
+                        </div>
+                        <div class="col-lg-4 text-lg-end optionsContainer">
+                            <a href="pages/contact.html" class="btn btn-cta-primary">Contactar Ahora</a>
+                            <a href="pages/catalog.html" class="btn btn-cta-secondary">Ver Productos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Contacto</h5>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+506 6147-4889</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>info@gmail.com</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Tacares, Alajuela, Costa Rica</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Síguenos</h5>
+                            <div class="social-links">
+                                <a href="https://www.instagram.com/_puntadas_cr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://wa.me/50661474889" class="social-link whatsapp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-section">
+                            <h5 class="footer-title">Enlaces Rápidos</h5>
+                            <ul class="footer-links">
+                                <li><a href="pages/catalog.html">Catálogo</a></li>
+                                <li><a href="pages/about.html">Nuestra Historia</a></li>
+                                <li><a href="pages/contact.html">Contacto</a></li>
+                                <li><a href="pages/location.html">Ubicación</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
