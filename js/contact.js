@@ -1,10 +1,8 @@
-// Vue.js App para el formulario de contacto
 const { createApp } = Vue;
 
 createApp({
     data() {
         return {
-            // Datos del formulario
             formData: {
                 fullName: '',
                 email: '',
@@ -13,469 +11,265 @@ createApp({
                 gender: '',
                 education: [],
                 message: '',
-                acceptTerms: false,
-                age: null // Campo oculto calculado
+                age: null
             },
-            
-            // Producto seleccionado (si viene del catálogo)
             selectedProduct: null,
-            
-            // Estados del formulario
             errors: {},
             isSubmitting: false,
-            
-            // Configuración
-            maxDate: new Date().toISOString().split('T')[0], // Fecha máxima (hoy)
+            maxDate: new Date().toISOString().split('T')[0],
             maxMessageLength: 500
         }
     },
-    
+
     computed: {
-        // Calcular edad automáticamente
         calculatedAge() {
             if (!this.formData.birthDate) return null;
-            
+
             const today = new Date();
             const birthDate = new Date(this.formData.birthDate);
             let age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
-            
+
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
-            
-            // Actualizar el campo oculto
+
             this.formData.age = age;
-            
             return age;
         },
-        
-        // Contador de caracteres del mensaje
+
         messageLength() {
             return this.formData.message.length;
-        },
-        
-        // Verificar si el formulario es válido
-        isFormValid() {
-            return Object.keys(this.errors).length === 0 && 
-                   this.formData.fullName && 
-                   this.formData.email && 
-                   this.formData.birthDate && 
-                   this.formData.incomeRange && 
-                   this.formData.gender && 
-                   this.formData.education.length > 0 && 
-                   this.formData.message && 
-                   this.formData.acceptTerms;
         }
     },
-    
-    watch: {
-        // Validar campos en tiempo real
-        'formData.fullName'() {
-            this.validateField('fullName');
-        },
-        'formData.email'() {
-            this.validateField('email');
-        },
-        'formData.birthDate'() {
-            this.validateField('birthDate');
-        },
-        'formData.incomeRange'() {
-            this.validateField('incomeRange');
-        },
-        'formData.gender'() {
-            this.validateField('gender');
-        },
-        'formData.education'() {
-            this.validateField('education');
-        },
-        'formData.message'() {
-            this.validateField('message');
-        },
-        'formData.acceptTerms'() {
-            this.validateField('acceptTerms');
-        }
-    },
-    
+
     mounted() {
         this.checkUrlParams();
-        this.setupFormValidation();
     },
-    
+
     methods: {
-        // Verificar parámetros de URL (producto del catálogo)
         checkUrlParams() {
             const urlParams = new URLSearchParams(window.location.search);
-            
+
             if (urlParams.has('product_id')) {
                 this.selectedProduct = {
                     id: urlParams.get('product_id'),
                     name: urlParams.get('product_name') || 'Producto',
                     price: urlParams.get('product_price') || '',
                     category: urlParams.get('product_category') || '',
-                    image: `images/productos/${urlParams.get('product_name')?.toLowerCase().replace(/\s+/g, '-')}.jpg` || 'images/placeholder-product.jpg'
+                    image: urlParams.get('product_image') || ''
                 };
-                
-                // Prellenar el mensaje con información del producto
-                this.formData.message = `Hola, estoy interesado/a en el producto "${this.selectedProduct.name}" (${this.selectedProduct.price}). Me gustaría obtener más información sobre:\n\n- Disponibilidad\n- Tiempo de entrega\n- Opciones de personalización\n- Métodos de pago\n\nGracias.`;
+
+                this.formData.message = `Hola, estoy interesado/a en el producto "${this.selectedProduct.name}" (${this.selectedProduct.price}). Me gustaría obtener más información.`;
             }
         },
-        
-        // Remover producto seleccionado
+
         removeProduct() {
             this.selectedProduct = null;
             this.formData.message = '';
-            
-            // Limpiar URL
             const url = new URL(window.location);
             url.search = '';
             window.history.replaceState({}, '', url);
         },
-        
-        // Validar campo individual
+
         validateField(fieldName) {
             const value = this.formData[fieldName];
-            
-            // Limpiar error previo
             delete this.errors[fieldName];
-            
-            switch (fieldName) {
-                case 'fullName':
-                    if (!value || value.trim().length < 2) {
-                        this.errors.fullName = 'El nombre debe tener al menos 2 caracteres';
-                    } else if (value.trim().length > 100) {
-                        this.errors.fullName = 'El nombre no puede exceder 100 caracteres';
-                    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value.trim())) {
-                        this.errors.fullName = 'El nombre solo puede contener letras y espacios';
-                    }
-                    break;
-                    
-                case 'email':
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!value) {
-                        this.errors.email = 'El email es requerido';
-                    } else if (!emailRegex.test(value)) {
-                        this.errors.email = 'Ingrese un email válido';
-                    }
-                    break;
-                    
-                case 'birthDate':
-                    if (!value) {
-                        this.errors.birthDate = 'La fecha de nacimiento es requerida';
-                    } else {
-                        const birthDate = new Date(value);
-                        const today = new Date();
-                        const age = today.getFullYear() - birthDate.getFullYear();
-                        
-                        if (birthDate > today) {
-                            this.errors.birthDate = 'La fecha no puede ser futura';
-                        } else if (age < 13) {
-                            this.errors.birthDate = 'Debe ser mayor de 13 años';
-                        } else if (age > 120) {
-                            this.errors.birthDate = 'Ingrese una fecha válida';
-                        }
-                    }
-                    break;
-                    
-                case 'incomeRange':
-                    if (!value) {
-                        this.errors.incomeRange = 'Seleccione un rango de ingresos';
-                    }
-                    break;
-                    
-                case 'gender':
-                    if (!value) {
-                        this.errors.gender = 'Seleccione un género';
-                    }
-                    break;
-                    
-                case 'education':
-                    if (!value || value.length === 0) {
-                        this.errors.education = 'Seleccione al menos un grado académico';
-                    }
-                    break;
-                    
-                case 'message':
-                    if (!value || value.trim().length < 10) {
-                        this.errors.message = 'El mensaje debe tener al menos 10 caracteres';
-                    } else if (value.length > this.maxMessageLength) {
-                        this.errors.message = `El mensaje no puede exceder ${this.maxMessageLength} caracteres`;
-                    }
-                    break;
-                    
-                case 'acceptTerms':
-                    if (!value) {
-                        this.errors.acceptTerms = 'Debe aceptar los términos y condiciones';
-                    }
-                    break;
-            }
+
+            const validations = {
+                fullName: () => {
+                    if (!value || value.trim().length < 2) return 'El nombre debe tener al menos 2 caracteres';
+                    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value.trim())) return 'Solo letras y espacios';
+                },
+                email: () => {
+                    if (!value) return 'El email es requerido';
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Email inválido';
+                },
+                birthDate: () => {
+                    if (!value) return 'Fecha requerida';
+                    const birthDate = new Date(value);
+                    if (birthDate > new Date()) return 'Fecha no puede ser futura';
+                },
+                incomeRange: () => !value ? 'Seleccione un rango' : null,
+                gender: () => !value ? 'Seleccione un género' : null,
+                education: () => (!value || value.length === 0) ? 'Seleccione al menos uno' : null,
+                message: () => {
+                    if (!value || value.trim().length < 10) return 'Mínimo 10 caracteres';
+                    if (value.length > this.maxMessageLength) return `Máximo ${this.maxMessageLength} caracteres`;
+                },
+            };
+
+            const error = validations[fieldName] && validations[fieldName]();
+            if (error) this.errors[fieldName] = error;
         },
-        
-        // Validar todo el formulario
+
         validateForm() {
             this.errors = {};
-            
-            // Validar todos los campos
             Object.keys(this.formData).forEach(field => {
-                if (field !== 'age') { // No validar el campo calculado
-                    this.validateField(field);
-                }
+                if (field !== 'age') this.validateField(field);
             });
-            
             return Object.keys(this.errors).length === 0;
         },
-        
-        // Enviar formulario
+
         async submitForm() {
             if (!this.validateForm()) {
-                this.showError('Por favor, corrija los errores en el formulario');
+                this.showError('Corrija los errores del formulario');
                 return;
             }
-            
+
             this.isSubmitting = true;
-            
+
             try {
-                // Preparar datos para envío
-                const formDataToSend = {
-                    ...this.formData,
-                    selectedProduct: this.selectedProduct,
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent
-                };
-                
-                // Simular envío de email (aquí integrarías con tu servicio de email)
-                await this.sendEmail(formDataToSend);
-                
-                // Mostrar modal de éxito
+                await this.sendEmailJS();
                 this.showSuccessModal();
-                
-                // Limpiar formulario después de un delay
-                setTimeout(() => {
-                    this.resetForm();
-                }, 2000);
-                
-                // Tracking del evento
-                this.trackEvent('form_submit', {
-                    has_product: !!this.selectedProduct,
-                    user_age: this.calculatedAge
-                });
-                
+                setTimeout(() => this.resetForm(), 2000);
             } catch (error) {
-                console.error('Error enviando formulario:', error);
-                this.showError('Hubo un error al enviar el mensaje. Por favor, intente nuevamente.');
+                console.error('Error:', error);
+                this.showError('Error al enviar. Intente nuevamente.');
+                // Fallback a mailto
+                this.openMailto();
             } finally {
                 this.isSubmitting = false;
             }
         },
-        
-        // Simular envío de email
-        async sendEmail(formData) {
-            // Aquí integrarías con EmailJS, Formspree, o tu backend
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    // Simular éxito/error
-                    if (Math.random() > 0.1) { // 90% de éxito
-                        resolve();
-                    } else {
-                        reject(new Error('Error de red'));
-                    }
-                }, 2000);
-            });
+
+        async sendEmailJS() {
+            if (typeof emailjs === 'undefined') {
+                throw new Error('EmailJS no disponible');
+            }
+
+            const labels = {
+                income: {
+                    'menos-500': 'Menos de $500',
+                    '500-1000': '$500 - $1,000',
+                    '1000-2000': '$1,000 - $2,000',
+                    '2000-3000': '$2,000 - $3,000',
+                    'mas-3000': 'Más de $3,000'
+                },
+                gender: {
+                    'masculino': 'Masculino',
+                    'femenino': 'Femenino',
+                    'otro': 'Otro'
+                },
+                education: {
+                    'primaria': 'Primaria',
+                    'secundaria': 'Secundaria',
+                    'bachillerato': 'Bachillerato',
+                    'tecnico': 'Técnico',
+                    'universitario': 'Universitario',
+                    'licenciatura': 'Licenciatura',
+                    'maestria': 'Maestría',
+                    'doctorado': 'Doctorado'
+                }
+            };
+
+            const templateParams = {
+                to_email: 'juerguencalvo@gmail.com',
+                from_name: this.formData.fullName,
+                from_email: this.formData.email,
+                subject: `Contacto de ${this.formData.fullName} - Puntadas`,
+                full_name: this.formData.fullName,
+                email: this.formData.email,
+                birth_date: this.formData.birthDate,
+                age: this.formData.age,
+                gender: labels.gender[this.formData.gender],
+                income_range: labels.income[this.formData.incomeRange],
+                education: this.formData.education.map(edu => labels.education[edu] || edu).join(', '),
+                message: this.formData.message,
+                product_info: this.selectedProduct ?
+                    `${this.selectedProduct.name} - ${this.selectedProduct.category} - ${this.selectedProduct.price}` :
+                    'Sin producto específico',
+                timestamp: new Date().toLocaleString('es-CR')
+            };
+
+            return await emailjs.send(
+                'service_vr989k8',
+                'template_zqsyh7s',
+                templateParams
+            );
         },
-        
-        // Mostrar modal de éxito
+
+        openMailto() {
+            const subject = `Contacto de ${this.formData.fullName} - Puntadas`;
+            const body = `
+Nombre: ${this.formData.fullName}
+Email: ${this.formData.email}
+Edad: ${this.formData.age} años
+Mensaje: ${this.formData.message}
+            `;
+
+            const mailtoLink = `mailto:juerguencalvo@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoLink, '_blank');
+        },
+
         showSuccessModal() {
             const modal = new bootstrap.Modal(document.getElementById('successModal'));
             modal.show();
         },
-        
-        // Limpiar formulario
+
         resetForm() {
             this.formData = {
-                fullName: '',
-                email: '',
-                birthDate: '',
-                incomeRange: '',
-                gender: '',
-                education: [],
-                message: '',
-                acceptTerms: false,
-                age: null
+                fullName: '', email: '', birthDate: '', incomeRange: '',
+                gender: '', education: [], message: '', age: null
             };
-            
             this.errors = {};
-            
-            // Mantener producto seleccionado si existe
+
             if (this.selectedProduct) {
-                this.formData.message = `Hola, estoy interesado/a en el producto "${this.selectedProduct.name}" (${this.selectedProduct.price}). Me gustaría obtener más información.`;
+                this.formData.message = `Interesado en: ${this.selectedProduct.name}`;
             }
         },
-        
-        // Mostrar términos y condiciones
-        showTerms() {
-            alert('Términos y Condiciones:\n\n1. Los datos proporcionados serán utilizados únicamente para contacto comercial.\n2. No compartimos información personal con terceros.\n3. Puede solicitar la eliminación de sus datos en cualquier momento.\n4. Al enviar este formulario acepta recibir comunicaciones de Puntadas.');
-        },
-        
-        // Configurar validación del formulario
-        setupFormValidation() {
-            // Prevenir envío con Enter en campos de texto
-            document.querySelectorAll('input[type="text"], input[type="email"]').forEach(input => {
-                input.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                    }
-                });
-            });
-            
-            // Limitar caracteres en el mensaje
-            const messageTextarea = document.getElementById('message');
-            if (messageTextarea) {
-                messageTextarea.addEventListener('input', (e) => {
-                    if (e.target.value.length > this.maxMessageLength) {
-                        e.target.value = e.target.value.substring(0, this.maxMessageLength);
-                        this.formData.message = e.target.value;
-                    }
-                });
-            }
-        },
-        
-        // Mostrar error
+
         showError(message) {
-            // Crear toast de error
-            const toastHtml = `
-                <div class="toast align-items-center text-white bg-danger border-0" role="alert">
-                    <div class="d-flex">
-                        <div class="toast-body">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            ${message}
-                        </div>
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                    </div>
+            const toast = document.createElement('div');
+            toast.className = 'toast align-items-center text-white bg-danger border-0 show';
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="this.parentElement.parentElement.remove()"></button>
                 </div>
             `;
-            
-            // Agregar al DOM
-            let toastContainer = document.querySelector('.toast-container');
-            if (!toastContainer) {
-                toastContainer = document.createElement('div');
-                toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
-                document.body.appendChild(toastContainer);
+
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container position-fixed top-0 end-0 p-3';
+                document.body.appendChild(container);
             }
-            
-            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
-            
-            // Mostrar toast
-            const toastElement = toastContainer.lastElementChild;
-            const toast = new bootstrap.Toast(toastElement);
-            toast.show();
-            
-            // Remover del DOM después de ocultarse
-            toastElement.addEventListener('hidden.bs.toast', () => {
-                toastElement.remove();
-            });
-        },
-        
-        // Tracking de eventos
-        trackEvent(eventName, eventData = {}) {
-            console.log('Event tracked:', eventName, eventData);
-            
-            // Integración con Google Analytics
-            if (typeof gtag !== 'undefined') {
-                gtag('event', eventName, {
-                    event_category: 'contact_form',
-                    ...eventData
-                });
-            }
+
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
         }
+    },
+
+    // Validación en tiempo real simplificada
+    watch: {
+        'formData.fullName'() { if (this.errors.fullName) this.validateField('fullName'); },
+        'formData.email'() { if (this.errors.email) this.validateField('email'); },
+        'formData.birthDate'() { if (this.errors.birthDate) this.validateField('birthDate'); },
+        'formData.message'() { if (this.errors.message) this.validateField('message'); }
     }
 }).mount('#contactApp');
 
-// Funciones JavaScript vanilla adicionales
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Mejorar UX del formulario
-    setupFormEnhancements();
-    
-    // Configurar atajos de teclado
-    setupKeyboardShortcuts();
-    
-    // Auto-guardar borrador (opcional)
-    setupAutoSave();
-});
-
-function setupFormEnhancements() {
-    // Animaciones de focus en los campos
-    document.querySelectorAll('.form-control, .form-select').forEach(field => {
-        field.addEventListener('focus', function() {
-            this.parentElement.classList.add('field-focused');
-        });
-        
-        field.addEventListener('blur', function() {
-            this.parentElement.classList.remove('field-focused');
-        });
-    });
-    
-    // Mejorar selección múltiple
+// Funciones adicionales mínimas
+document.addEventListener('DOMContentLoaded', function () {
+    // Contador visual para educación
     const educationSelect = document.getElementById('education');
     if (educationSelect) {
-        educationSelect.addEventListener('change', function() {
-            const selectedCount = this.selectedOptions.length;
+        educationSelect.addEventListener('change', function () {
+            const count = this.selectedOptions.length;
             const label = document.querySelector('label[for="education"]');
-            if (selectedCount > 0) {
-                label.innerHTML = `Grado Académico <span class="badge bg-primary">${selectedCount}</span> <span class="required">*</span>`;
-            } else {
-                label.innerHTML = 'Grado Académico <span class="required">*</span>';
-            }
+            label.innerHTML = count > 0 ?
+                `Grado Académico <span class="badge bg-primary">${count}</span> <span class="required">*</span>` :
+                'Grado Académico <span class="required">*</span>';
         });
     }
-}
 
-function setupKeyboardShortcuts() {
-    document.addEventListener('keydown', function(e) {
-        // Ctrl/Cmd + Enter para enviar formulario
+    // Envío rápido con Ctrl+Enter
+    document.addEventListener('keydown', function (e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             e.preventDefault();
             const submitBtn = document.querySelector('button[type="submit"]');
-            if (submitBtn && !submitBtn.disabled) {
-                submitBtn.click();
-            }
-        }
-        
-        // Escape para limpiar formulario
-        if (e.key === 'Escape') {
-            const app = document.getElementById('contactApp').__vueParentComponent;
-            if (app && confirm('¿Desea limpiar el formulario?')) {
-                app.ctx.resetForm();
-            }
+            if (submitBtn && !submitBtn.disabled) submitBtn.click();
         }
     });
-}
-
-function setupAutoSave() {
-    // Guardar borrador cada 30 segundos
-    setInterval(() => {
-        const app = document.getElementById('contactApp').__vueParentComponent;
-        if (app && app.ctx.formData.fullName) {
-            localStorage.setItem('contactFormDraft', JSON.stringify(app.ctx.formData));
-        }
-    }, 30000);
-    
-    // Cargar borrador al iniciar
-    const draft = localStorage.getItem('contactFormDraft');
-    if (draft) {
-        try {
-            const draftData = JSON.parse(draft);
-            const app = document.getElementById('contactApp').__vueParentComponent;
-            if (app && confirm('Se encontró un borrador guardado. ¿Desea cargarlo?')) {
-                Object.assign(app.ctx.formData, draftData);
-            }
-        } catch (e) {
-            console.warn('Error cargando borrador:', e);
-        }
-    }
-}
-
-// Limpiar borrador al enviar exitosamente
-window.addEventListener('beforeunload', function() {
-    localStorage.removeItem('contactFormDraft');
 });

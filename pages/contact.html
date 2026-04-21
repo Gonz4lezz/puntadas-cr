@@ -136,6 +136,91 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="birthDate" class="form-label">
+                                            Fecha de Nacimiento <span class="required">*</span>
+                                        </label>
+                                        <input type="date" class="form-control" id="birthDate"
+                                            v-model="formData.birthDate" :class="{ 'is-invalid': errors.birthDate }"
+                                            :max="maxDate" required>
+                                        <div class="invalid-feedback" v-if="errors.birthDate">
+                                            {{ errors.birthDate }}
+                                        </div>
+                                        <div class="form-text" v-if="calculatedAge !== null">
+                                            Edad: {{ calculatedAge }} años
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="incomeRange" class="form-label">
+                                            Rango de Ingresos <span class="required">*</span>
+                                        </label>
+                                        <select class="form-control form-select" id="incomeRange"
+                                            v-model="formData.incomeRange" :class="{ 'is-invalid': errors.incomeRange }"
+                                            required>
+                                            <option value="">Seleccione un rango</option>
+                                            <option value="menos-500">Menos de $500</option>
+                                            <option value="500-1000">$500 - $1,000</option>
+                                            <option value="1000-2000">$1,000 - $2,000</option>
+                                            <option value="2000-3000">$2,000 - $3,000</option>
+                                            <option value="mas-3000">Más de $3,000</option>
+                                        </select>
+                                        <div class="invalid-feedback" v-if="errors.incomeRange">
+                                            {{ errors.incomeRange }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">
+                                            Género <span class="required">*</span>
+                                        </label>
+                                        <div class="gender-options">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="gender" id="male"
+                                                    value="masculino" v-model="formData.gender" required>
+                                                <label class="form-check-label" for="male">Masculino</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="gender" id="female"
+                                                    value="femenino" v-model="formData.gender" required>
+                                                <label class="form-check-label" for="female">Femenino</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="gender" id="other"
+                                                    value="otro" v-model="formData.gender" required>
+                                                <label class="form-check-label" for="other">Otro</label>
+                                            </div>
+                                        </div>
+                                        <div class="invalid-feedback" v-if="errors.gender" style="display: block;">
+                                            {{ errors.gender }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="education" class="form-label">
+                                            Grado Académico <span class="required">*</span>
+                                        </label>
+                                        <select class="form-control form-select" id="education"
+                                            v-model="formData.education" :class="{ 'is-invalid': errors.education }"
+                                            multiple required>
+                                            <option value="primaria">Primaria</option>
+                                            <option value="secundaria">Secundaria</option>
+                                            <option value="bachillerato">Bachillerato</option>
+                                            <option value="tecnico">Técnico</option>
+                                            <option value="universitario">Universitario</option>
+                                            <option value="licenciatura">Licenciatura</option>
+                                            <option value="maestria">Maestría</option>
+                                            <option value="doctorado">Doctorado</option>
+                                        </select>
+                                        <div class="invalid-feedback" v-if="errors.education">
+                                            {{ errors.education }}
+                                        </div>
+                                        <div class="form-text">Mantén presionado Ctrl (Cmd en Mac) para seleccionar
+                                            múltiples opciones</div>
+                                    </div>
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="message" class="form-label">
                                         Mensaje <span class="required">*</span>
@@ -148,6 +233,8 @@
                                     </div>
                                     <div class="form-text">{{ messageLength }}/500 caracteres</div>
                                 </div>
+                                <!-- Campo oculto para la edad calculada -->
+                                <input type="hidden" v-model="formData.age">
 
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-primary-gradient" :disabled="isSubmitting">
@@ -190,7 +277,7 @@
                                 </div>
                                 <div class="contact-item">
                                     <i class="fas fa-envelope"></i>
-                                    <span>info@gmail.com</span>
+                                    <span>juerguencalvo@gmail.com</span>
                                 </div>
                                 <div class="contact-item">
                                     <i class="fas fa-map-marker-alt"></i>
@@ -203,7 +290,8 @@
                         <div class="footer-section">
                             <h5 class="footer-title">Síguenos</h5>
                             <div class="social-links">
-                                <a href="https://www.instagram.com/_puntadas_cr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link instagram">
+                                <a href="https://www.instagram.com/_puntadas_cr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                                    target="_blank" class="social-link instagram">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                                 <a href="https://wa.me/50661474889" class="social-link whatsapp">
@@ -251,6 +339,10 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        emailjs.init('2d52hkI0gJ0xpPK6g');
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="../js/contact.js"></script>
