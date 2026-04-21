@@ -161,6 +161,7 @@ body {
 /* ===== MAIN CONTENT (Mobile First) ===== */
 .contact-main {
     padding: var(--spacing-xl) 0;
+    background: #dcdcdc;
 }
 
 /* ===== PRODUCTO SELECCIONADO (Mobile First) ===== */

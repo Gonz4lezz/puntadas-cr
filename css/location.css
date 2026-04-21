@@ -177,6 +177,7 @@ body {
 /* ===== MAIN CONTENT (Mobile First) ===== */
 .location-main {
     padding: var(--spacing-xl) 0;
+    background: #dcdcdc;
 }
 
 /* ===== INFORMACIÓN DE UBICACIÓN (Mobile First) ===== */

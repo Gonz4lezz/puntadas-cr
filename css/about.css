@@ -178,6 +178,7 @@ body {
 /* ===== MAIN CONTENT (Mobile First) ===== */
 .about-main {
     padding: var(--spacing-xl) 0;
+    background: #dcdcdc;
 }
 
 /* ===== SECCIÓN DE HISTORIA (Mobile First) ===== */
